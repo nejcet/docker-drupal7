@@ -37,20 +37,8 @@ RUN set -ex; \
 		| sort -u \
 		| xargs -rt apt-mark manual; \
 	\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false;
-	
-# install apcu
-RUN pecl install apcu \
-    && docker-php-ext-enable apcu
-
-#install Imagemagick & PHP Imagick ext
-RUN apt-get update && apt-get install -y \
-        libmagickwand-dev --no-install-recommends
-
-RUN pecl install imagick && docker-php-ext-enable imagick
-
-# remove not necessary files
-RUN rm -rf /var/lib/apt/lists/*
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	rm -rf /var/lib/apt/lists/*
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
